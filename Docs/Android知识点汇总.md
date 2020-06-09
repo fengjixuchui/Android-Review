@@ -1,3 +1,103 @@
+- [Activity](#activity)
+  - [生命周期](#生命周期)
+  - [启动模式](#启动模式)
+  - [启动过程](#启动过程)
+- [Fragment](#fragment)
+  - [特点](#特点)
+  - [生命周期](#生命周期-1)
+  - [与Activity通信](#与activity通信)
+- [Service](#service)
+  - [启动过程](#启动过程-1)
+  - [绑定过程](#绑定过程)
+  - [生命周期](#生命周期-2)
+  - [启用前台服务](#启用前台服务)
+- [BroadcastReceiver](#broadcastreceiver)
+  - [注册过程](#注册过程)
+- [ContentProvider](#contentprovider)
+  - [基本使用](#基本使用)
+- [数据存储](#数据存储)
+- [View](#view)
+  - [MeasureSpec](#measurespec)
+  - [MotionEvent](#motionevent)
+  - [VelocityTracker](#velocitytracker)
+  - [GestureDetector](#gesturedetector)
+  - [Scroller](#scroller)
+  - [View 的滑动](#view-的滑动)
+  - [View 的事件分发](#view-的事件分发)
+  - [在 Activity 中获取某个 View 的宽高](#在-activity-中获取某个-view-的宽高)
+  - [Draw 的基本流程](#draw-的基本流程)
+  - [自定义 View](#自定义-view)
+- [进程](#进程)
+  - [进程生命周期](#进程生命周期)
+  - [多进程](#多进程)
+  - [进程存活](#进程存活)
+    - [OOM_ADJ](#oom_adj)
+    - [进程被杀情况](#进程被杀情况)
+    - [进程保活方案](#进程保活方案)
+- [Parcelable 接口](#parcelable-接口)
+  - [使用示例](#使用示例)
+  - [方法说明](#方法说明)
+  - [Parcelable 与 Serializable 对比](#parcelable-与-serializable-对比)
+- [IPC](#ipc)
+  - [IPC方式](#ipc方式)
+  - [Binder](#binder)
+    - [流程](#流程)
+  - [AIDL 通信](#aidl-通信)
+  - [Messenger](#messenger)
+- [Window / WindowManager](#window--windowmanager)
+  - [Window 概念与分类](#window-概念与分类)
+  - [Window 的内部机制](#window-的内部机制)
+  - [Window 的创建过程](#window-的创建过程)
+    - [Activity 的 Window 创建过程](#activity-的-window-创建过程)
+    - [Dialog 的 Window 创建过程](#dialog-的-window-创建过程)
+    - [Toast 的 Window 创建过程](#toast-的-window-创建过程)
+- [Bitmap](#bitmap)
+  - [配置信息与压缩方式](#配置信息与压缩方式)
+  - [常用操作](#常用操作)
+    - [裁剪、缩放、旋转、移动](#裁剪缩放旋转移动)
+    - [保存与释放](#保存与释放)
+    - [图片压缩](#图片压缩)
+  - [BitmapFactory](#bitmapfactory)
+    - [Bitmap创建流程](#bitmap创建流程)
+    - [Option类](#option类)
+    - [基本使用](#基本使用-1)
+  - [内存回收](#内存回收)
+- [屏幕适配](#屏幕适配)
+  - [单位](#单位)
+  - [头条适配方案](#头条适配方案)
+  - [刘海屏适配](#刘海屏适配)
+- [Context](#context)
+- [SharedPreferences](#sharedpreferences)
+  - [获取方式](#获取方式)
+    - [getPreferences](#getpreferences)
+    - [getDefaultSharedPreferences](#getdefaultsharedpreferences)
+    - [getSharedPreferences](#getsharedpreferences)
+  - [架构](#架构)
+  - [apply / commit](#apply--commit)
+  - [注意](#注意)
+- [消息机制](#消息机制)
+  - [Handler 机制](#handler-机制)
+  - [工作原理](#工作原理)
+    - [ThreadLocal](#threadlocal)
+    - [MessageQueue](#messagequeue)
+    - [Looper](#looper)
+    - [Handler](#handler)
+- [线程异步](#线程异步)
+  - [AsyncTask](#asynctask)
+    - [基本使用](#基本使用-2)
+    - [工作原理](#工作原理-1)
+  - [HandlerThread](#handlerthread)
+  - [IntentService](#intentservice)
+  - [线程池](#线程池)
+- [RecyclerView 优化](#recyclerview-优化)
+- [Webview](#webview)
+  - [基本使用](#基本使用-3)
+    - [WebView](#webview-1)
+    - [WebSettings](#websettings)
+    - [WebViewClient](#webviewclient)
+    - [WebChromeClient](#webchromeclient)
+  - [Webview 加载优化](#webview-加载优化)
+  - [内存泄漏](#内存泄漏)
 # Activity
 ## 生命周期  
 ![](http://gityuan.com/images/lifecycle/activity.png)
@@ -625,6 +725,8 @@ public void draw(Canvas canvas) {
 用于扩张某种已有的ViewGroup的功能
 
 # 进程
+进程（Process） 是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。
+
 当某个应用组件启动且该应用没有运行其他任何组件时，Android 系统会使用单个执行线程为应用启动新的 Linux 进程。默认情况下，同一应用的所有组件在相同的进程和线程（称为“主”线程）中运行。
 
 各类组件元素的清单文件条目``<activity>``、``<service>``、``<receiver>`` 和 ``<provider>``—均支持 android:process 属性，此属性可以指定该组件应在哪个进程运行。
@@ -933,6 +1035,9 @@ public interface IRemoteService extends android.os.IInterface {
 | in | 数据只能由客户端流向服务端，服务端将会收到客户端对象的完整数据，客户端对象不会因为服务端对传参的修改而发生变动。
 | out | 数据只能由服务端流向客户端，服务端将会收到客户端对象，该对象不为空，但是它里面的字段为空，但是在服务端对该对象作任何修改之后客户端的传参对象都会同步改动。
 | inout | 服务端将会接收到客户端传来对象的完整信息，并且客户端将会同步服务端对该对象的任何变动。
+
+### 流程
+![](http://gityuan.com/images/binder/binder_start_service/binder_ipc_arch.jpg)
 
 ## AIDL 通信
 Android Interface Definition Language
@@ -1878,6 +1983,8 @@ Handler 的工作主要包含消息的发送和接收的过程。消息的发送
 ![](https://img-blog.csdnimg.cn/20181220142659447)
 
 # 线程异步
+线程（thread） 是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。
+
 应用启动时，系统会为应用创建一个名为“主线程”的执行线程( UI 线程)。 此线程非常重要，因为它负责将事件分派给相应的用户界面小部件，其中包括绘图事件。 此外，它也是应用与 Android UI 工具包组件（来自 ``android.widget`` 和 ``android.view`` 软件包的组件）进行交互的线程。
 
 系统不会为每个组件实例创建单独的线程。运行于同一进程的所有组件均在 UI 线程中实例化，并且对每个组件的系统调用均由该线程进行分派。 因此，响应系统回调的方法（例如，报告用户操作的 onKeyDown() 或生命周期回调方法）始终在进程的 UI 线程中运行。
